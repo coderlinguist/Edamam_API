@@ -1,0 +1,36 @@
+# Load environment variables from a specific file
+load_dotenv("Edamam_ID_and_key.env")
+
+app_id = os.getenv("app_ID")
+app_key = os.getenv("app_key")
+
+
+def recipe_search(ingredient,diet,health):
+    app_id = os.getenv("app_ID")
+    app_key = os.getenv("app_key")
+    result = requests.get('https://api.edamam.com/search?q={}&app_id={}&app_key={}'.format(ingredient,app_id,app_key,diet,health))
+    data = result.json()
+    return data['hits']
+
+def save_results_to_file(results):
+    with open("edamam_recipe_results.txt", "w") as file:
+        for result in results:
+            recipe = result['recipe']
+            file.write("\n" + recipe['label'] + "\n")
+            file.write(recipe['uri'] + "\n")
+            file.write("\n")
+
+def run():
+    ingredient = input("\nWelcome to the recipe finder! Let's find a recipe tailored for you. \n\nEnter your ingredient: ")
+    diet = input("\nNow choose your nutritional preference. Enter either balanced, high-fiber, high-protein, low-carb, low-fat or low-sodium. \nNo preference? No worries! In that case, just press enter: ")
+    health = input("\nNow select your diet: Enter either shellfish-free, dairy-free, kosher, low-sugar, wheat-free, vegetarian or vegan.\nNo preference? No worries! In that case, just press enter: ")
+    results = recipe_search(ingredient,diet,health)
+    save_results_to_file(results)
+    for result in results:
+        recipe = result['recipe']
+        print("\n" + recipe['label'])
+        print(recipe['uri'])
+        print()
+
+
+run()
