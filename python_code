@@ -5,7 +5,7 @@ load_dotenv("Edamam_ID_and_key.env")
 app_id = os.getenv("app_ID")
 app_key = os.getenv("app_key")
 
-# NB: Edamam uses 'health' for dietary requirements (halal, vegetarian, vegan, etc.) 
+# NB: Edamam uses the variable 'health' for dietary requirements (halal, vegetarian, vegan, etc.) 
     and 'diet' for nutritional preferences (low-carb, high-protein, low-fat, etc.)
 
 def recipe_search(ingredient,diet,health):
